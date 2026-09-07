@@ -34,8 +34,8 @@ func TestAuthHandlerServiceAccount(t *testing.T) {
 			name: "Successful authentication",
 			openshiftResponse: []tests.Response{
 				{
-					200,
-					tests.TrResponse(true, "user1"),
+					Code: 200,
+					Body: tests.TrResponse(true, "user1"),
 				},
 			},
 			wantAuthenticated: true,
@@ -44,8 +44,8 @@ func TestAuthHandlerServiceAccount(t *testing.T) {
 			name: "TokenReview call failure",
 			openshiftResponse: []tests.Response{
 				{
-					500,
-					"Internal server error",
+					Code: 500,
+					Body: "Internal server error",
 				},
 			},
 			wantAuthenticated: false,
