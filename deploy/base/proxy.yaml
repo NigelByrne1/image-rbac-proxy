@@ -26,7 +26,7 @@ metadata:
   namespace: image-rbac-proxy
 data:
   backend-url: https://quay.io
-  memcache-servers: memcache:11211
+  memcache-servers: localhost:11211
   dex-client-id: image-rbac-proxy
 ---
 apiVersion: apps/v1
@@ -144,9 +144,6 @@ spec:
           readOnly: true
       - name: memcache
         image: memcached:1.6.39
-        ports:
-        - containerPort: 11211
-          name: memcache
         resources:
           requests:
             cpu: 100m
@@ -160,6 +157,8 @@ spec:
         args:
         - "-m"
         - "64"
+        - "-l"
+        - "127.0.0.1"
       volumes:
       - name: tls
         secret:
@@ -187,20 +186,6 @@ spec:
     protocol: TCP
     port: 443
     targetPort: 4000
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: memcache
-  namespace: image-rbac-proxy
-spec:
-  selector:
-    app: image-rbac-proxy
-  ports:
-  - name: memcache
-    protocol: TCP
-    port: 11211
-    targetPort: 11211
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
