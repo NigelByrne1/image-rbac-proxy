@@ -4,3 +4,4 @@ namespace: image-rbac-proxy
 resources:
 - proxy.yaml
 - dex.yaml
+- network-policy.yaml
